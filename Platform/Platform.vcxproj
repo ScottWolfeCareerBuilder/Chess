@@ -117,8 +117,10 @@
     <ClCompile Include="Bishop.cpp" />
     <ClCompile Include="Board.cpp" />
     <ClCompile Include="BoardInitializer.cpp" />
+    <ClCompile Include="CastleMove.cpp" />
     <ClCompile Include="ConsoleBoardPresenter.cpp" />
     <ClCompile Include="ConsoleUI.cpp" />
+    <ClCompile Include="EnPassantMove.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="GameOverChecker.cpp" />
     <ClCompile Include="GameState.cpp" />
@@ -132,6 +134,7 @@
     <ClCompile Include="MoveValidator.cpp" />
     <ClCompile Include="Piece.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PromotionMove.cpp" />
     <ClCompile Include="Queen.cpp" />
     <ClCompile Include="Rook.cpp" />
     <ClCompile Include="Pawn.cpp" />
@@ -147,10 +150,13 @@
     <ClInclude Include="ChessEnums.h" />
     <ClInclude Include="ConsoleBoardPresenter.h" />
     <ClInclude Include="ConsoleUI.h" />
+    <ClInclude Include="EnPassantMove.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="GameOverChecker.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="GameObserver.h" />
+    <ClInclude Include="CastleMove.h" />
+    <ClInclude Include="PromotionMove.h" />
     <ClInclude Include="HumanPlayer.h" />
     <ClInclude Include="King.h" />
     <ClInclude Include="Knight.h" />

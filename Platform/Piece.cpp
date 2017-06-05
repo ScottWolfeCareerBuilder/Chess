@@ -24,11 +24,19 @@ const std::string Piece::QUEEN_SYMBOL = "Q";
 const std::string Piece::KING_SYMBOL = "K";
 
 Piece::Piece(PieceColor piece_color)
-    : color(piece_color)
+    : color(piece_color), number_moves_taken(0)
 {}
 
 PieceColor Piece::getColor() const {
     return Piece::color;
+}
+
+void Piece::incrementMoveCount() {
+    number_moves_taken++;
+}
+
+bool Piece::hasMoved() const {
+    return number_moves_taken > 0;
 }
 
 const std::string Piece::getPieceSymbol(const Piece *piece) {
@@ -59,7 +67,7 @@ PieceColor Piece::getPieceColor(const Piece *piece) {
     }
 }
 
-unique_ptr<const Piece> Piece::copyPiece(const Piece *piece) {
+unique_ptr<Piece> Piece::copyPiece(const Piece *piece) {
     if (piece == nullptr) {
         return nullptr;
     }
@@ -88,5 +96,31 @@ void Piece::getMovesInLine(vector<Move> &moves, const GameState &state, Position
     }
     if (state.inBounds(end) && state.isOppPieceColor(end, color)) {
         moves.push_back(Move(start, end));
+    }
+}
+
+std::unique_ptr<Piece> Piece::createPiece(PieceType type, PieceColor color) {
+    switch (type)
+    {
+    case PieceType::PAWN:
+        return make_unique<Pawn>(color);
+
+    case PieceType::KNIGHT:
+        return make_unique<Knight>(color);
+
+    case PieceType::BISHOP:
+        return make_unique<Bishop>(color);
+
+    case PieceType::ROOK:
+        return make_unique<Rook>(color);
+
+    case PieceType::QUEEN:
+        return make_unique<Queen>(color);
+
+    case PieceType::KING:
+        return make_unique<King>(color);
+
+    default:
+        throw invalid_argument("invalid PieceType");
     }
 }

@@ -12,9 +12,9 @@ class Bishop : public Piece {
 
 public:
     Bishop(PieceColor color);
-    std::unique_ptr<const Piece> getCopy() const override;
+    std::unique_ptr<Piece> getCopy() const override;
     const std::string getSymbol() const override;
-    std::vector<Move> getAvailableMoves(const GameState &state, Position pos) const override;
+    std::vector<std::shared_ptr<Move>> getAvailableMoves(const GameState &state, Position pos) const override;
     void addMoveEffect(const GameState &state, Move &move) const override;
 
 };

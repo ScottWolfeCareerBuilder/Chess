@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <string>
 #include <vector>
 #include "ChessEnums.h"
 #include "Board.h"
@@ -20,11 +21,14 @@ public:
     bool isPiece(Position pos) const;
     const Piece *getPiece(Position pos) const;
     PieceColor getPieceColor(Position pos) const;
+    std::string getPieceSymbol(Position pos) const;
     bool isMoveAvailable(const Move &move) const;
     bool willKingBeInCheck(const Move &move) const;
     bool isKingInCheck() const;
     Position getKingPosition(PieceColor king_color) const;
     void makeMove(const Move &move);
+    std::unique_ptr<Piece> removePieceFromSquare(Position pos);
+    void addPieceToSquare(Position pos, std::unique_ptr<Piece> &piece);
     void addMoveEffect(Move &move) const;
     bool isOppPieceColor(Position pos, PieceColor color) const;
     bool inBounds(Position pos) const;

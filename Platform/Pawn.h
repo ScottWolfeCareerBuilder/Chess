@@ -13,17 +13,17 @@ class Pawn : public Piece {
 
 public:
     Pawn(PieceColor color);
-    std::unique_ptr<const Piece> getCopy() const override;
+    std::unique_ptr<Piece> getCopy() const override;
     const std::string getSymbol() const override;
-    std::vector<Move> getAvailableMoves(const GameState &state, Position start) const override;
+    std::vector<std::shared_ptr<Move>> getAvailableMoves(const GameState &state, Position start) const override;
     void addMoveEffect(const GameState &state, Move &move) const override;
 
 private:
-    void addOneSquareMove(std::vector<Move> &moves, const GameState &state, Position start) const;
-    void addTwoSquareMove(std::vector<Move> &moves, const GameState &state, Position start) const;
-    void addDiagonalMoves(std::vector<Move> &moves, const GameState &state, Position start) const;
-    void addDiagonalMove(std::vector<Move> &moves, const GameState &state, Position start, int delta_x) const;
-    void addEnPassantMove(std::vector<Move> &moves, const GameState state, Position start) const;
+    void addOneSquareMove(std::vector<std::shared_ptr<Move>> &moves, const GameState &state, Position start) const;
+    void addTwoSquareMove(std::vector<std::shared_ptr<Move>> &moves, const GameState &state, Position start) const;
+    void addDiagonalMoves(std::vector<std::shared_ptr<Move>> &moves, const GameState &state, Position start) const;
+    void addDiagonalMove(std::vector<std::shared_ptr<Move>> &moves, const GameState &state, Position start, int delta_x) const;
+    void addEnPassantMove(std::vector<std::shared_ptr<Move>> &moves, const GameState state, Position start) const;
     bool isEnPassantAvailable(const GameState &state, Position start, int &dst_delta_x) const;
     bool addEnPassantMoveEffect(const GameState &state, Move &move) const;
     bool addPromotionMoveEffect(const GameState &state, Move &move) const;

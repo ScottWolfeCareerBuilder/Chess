@@ -13,16 +13,16 @@ Pawn::Pawn(PieceColor color)
     : Piece(color)
 {}
 
-unique_ptr<const Piece> Pawn::getCopy() const {
-    return make_unique<const Pawn>(color);
+unique_ptr<Piece> Pawn::getCopy() const {
+    return make_unique<Pawn>(*this);
 }
 
 const string Pawn::getSymbol() const {
     return PAWN_SYMBOL;
 }
 
-vector<Move> Pawn::getAvailableMoves(const GameState &state, Position start) const {
-    vector<Move> moves;
+vector<shared_ptr<Move>> Pawn::getAvailableMoves(const GameState &state, Position start) const {
+    vector<shared_ptr<Move>> moves;
     addOneSquareMove(moves, state, start);
     addTwoSquareMove(moves, state, start);
     addDiagonalMoves(moves, state, start);
@@ -30,12 +30,12 @@ vector<Move> Pawn::getAvailableMoves(const GameState &state, Position start) con
     return moves;
 }
 
-void Pawn::addOneSquareMove(vector<Move> &moves, const GameState &state, Position start) const {
+void Pawn::addOneSquareMove(vector<shared_ptr<Move>> &moves, const GameState &state, Position start) const {
     Position end = start.add(0, step());
     if (state.inBounds(end) == true && state.isPiece(end) == false) {
-        Move move(start, end);
+        auto move = make_shared<Move>(start, end);
         addPromotionMoveEffect(state, move);
-        moves.push_back(move);
+        moves.push_back(make_shared<>(move));
     }
 }
 
@@ -116,7 +116,7 @@ bool Pawn::addPromotionMoveEffect(const GameState &state, Move &move) const {
     if (move.getEnd().y == promotionRow(state.getBoardDimension())) {
         if (state.inBounds(move.getEnd())) {
             // TODO add request to player for choice of piece
-            unique_ptr<const Piece> queen = make_unique<const Queen>(state.getPieceColor(move.getStart()));
+            unique_ptr<Piece> queen = make_unique<Queen>(state.getPieceColor(move.getStart()));
             unique_ptr<const MoveEffect> effect = make_unique<const MoveEffect>(move.getEnd(), queen, MoveEffectType::PROMOTION);
             move = Move(move.getStart(), move.getEnd(), effect);
             return true;

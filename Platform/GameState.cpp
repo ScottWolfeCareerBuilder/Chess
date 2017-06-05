@@ -47,6 +47,10 @@ PieceColor GameState::getPieceColor(Position pos) const {
     return board.getPieceColor(pos);
 }
 
+string GameState::getPieceSymbol(Position pos) const {
+    return board.getPieceSymbol(pos);
+}
+
 bool GameState::isMoveAvailable(const Move &move) const {
     const Piece *piece = board.getPiece(move.getStart());
     vector<Move> moves = piece->getAvailableMoves(*this, move.getStart());
@@ -76,6 +80,14 @@ void GameState::makeMove(const Move &move) {
     board.makeMove(move);
     move_history.push_back(move);
     changePlayersTurn();
+}
+
+std::unique_ptr<Piece> GameState::removePieceFromSquare(Position pos) {
+    return board.removePieceFromSquare(pos);
+}
+
+void GameState::addPieceToSquare(Position pos, std::unique_ptr<Piece> &piece) {
+    board.addPieceToSquare(pos, piece);
 }
 
 void GameState::addMoveEffect(Move &move) const {

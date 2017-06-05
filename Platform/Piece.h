@@ -13,16 +13,19 @@ class Piece {
 
 public:
     Piece(PieceColor color);
-    virtual std::unique_ptr<const Piece> getCopy() const = 0;
+    virtual std::unique_ptr<Piece> getCopy() const = 0;
     PieceColor getColor() const;
     virtual const std::string getSymbol() const = 0;
-    virtual std::vector<Move> getAvailableMoves(const GameState &state, Position pos) const = 0;
+    virtual std::vector<std::shared_ptr<Move>> getAvailableMoves(const GameState &state, Position pos) const = 0;
     bool canPieceMakeMove(const GameState &state, Position pos) const;
     virtual void addMoveEffect(const GameState &state, Move &move) const = 0;
+    bool hasMoved() const;
+    void incrementMoveCount();
 
-    static std::unique_ptr<const Piece> copyPiece(const Piece *piece);
+    static std::unique_ptr<Piece> copyPiece(const Piece *piece);
     static const std::string getPieceSymbol(const Piece *piece);
     static PieceColor getPieceColor(const Piece *piece);
+    static std::unique_ptr<Piece> createPiece(PieceType type, PieceColor color);
 
     static const std::string PAWN_SYMBOL;
     static const std::string ROOK_SYMBOL;
@@ -36,5 +39,6 @@ protected:
     void getStraightMoves(std::vector<Move> &moves, const GameState &state, Position start) const;
     void getDiagonalMoves(std::vector<Move> &moves, const GameState &state, Position start) const;
     void getMovesInLine(std::vector<Move> &moves, const GameState &state, Position start, int delta_x, int delta_y) const;
+    int number_moves_taken;
 
 };
